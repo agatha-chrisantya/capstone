@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 import numpy as np
-# import altair as alt
 import plotly
 import plotly_express as px
 from streamlit_option_menu import option_menu
@@ -22,9 +21,6 @@ opt = option_menu(
 )
 
 if opt == "Summary":
-    # st.title("U.S. Food Import")
-    # st.markdown("<h1 style='text-align: center;'>U.S. Food Import</h1>", unsafe_allow_html=True)
-
     df = pd.read_excel("FoodImports_Edited.xlsx", "FoodValue")
 
     curr_year = df["Year"].max()
@@ -61,13 +57,7 @@ if opt == "Summary":
         index = "Year",
         values = source2
     ).reset_index()
-    # st.dataframe(food)
 
-    # bev = pd.pivot_table(
-    #     data = df3,
-    #     index = "Year",
-    #     values = source3
-    # ).reset_index()
     st.markdown(
         f"""
         <div>
@@ -79,12 +69,7 @@ if opt == "Summary":
 
     col1, col4, col5 = st.columns(3)
     col2, col3 = st.columns([3,2])
-    
-    # with col1:
-    #     st.header("Total Imports")
-    #     fig = px.line(total_foods, x = "Year", y = "U.S. imports")
-    #     st.plotly_chart(fig, use_container_width = True)
-
+   
     with col1:
         imp_diff = 100 * (curr_imp - prev_imp) / prev_imp
         delta_icon = ""
@@ -113,7 +98,6 @@ if opt == "Summary":
         growth = {}
         food_1 = food.loc[food['Year'] == curr_year]
         food_2 = food.loc[food['Year'] == prev_year]
-        # st.dataframe(food_2)
         for column, values in food_1.items():
             if column != "Year":
                 increase = values.values - food_2[column].values
@@ -123,11 +107,7 @@ if opt == "Summary":
         max_increase_column = max(growth, key=growth.get)
         delta = 100 * max_increase / food.loc[food["Year"] == prev_year, max_increase_column].item()
         delta2 = delta[0]
-        # st.dataframe(growth)
-        # st.write(max_increase_column)
-        # st.write(max_increase2)
-        # st.write(delta)
-        # st.write(food.loc[food["Year"] == prev_year, max_increase_column])
+
         delta_icon2 = ""
         delta_color2 = ""
         delta3 = abs(delta2)
@@ -153,17 +133,10 @@ if opt == "Summary":
             """,
             unsafe_allow_html=True
         )
-        # st.metric(
-        #     label = "Highest Volume Import",
-        #     value = f"{max_val} <sup><span style='font-size: 0.8em;'>mt</span><sup>"
-        # )
-        # st.write(f"on {max_year}")
-        # st.write(f"Highest volume import '{max_col}' pada tahun {max_year}")
     with col5:
         growth2 = {}
         food_3 = food2.loc[food2['Year'] == curr_year]
         food_4 = food2.loc[food2['Year'] == prev_year]
-        # st.dataframe(food_2)
         for column, values in food_3.items():
             if column != "Year":
                 increase = values.values - food_4[column].values
@@ -173,11 +146,7 @@ if opt == "Summary":
         max_increase_column2 = max(growth2, key=growth2.get)
         delta4 = 100 * max_increase3 / food2.loc[food2["Year"] == prev_year, max_increase_column2].item()
         delta5 = delta4[0]
-        # st.dataframe(growth2)
-        # st.write(max_increase_column2)
-        # st.write(max_increase4)
-        # st.write(delta4)
-        # st.write(food2.loc[food2["Year"] == prev_year, max_increase_column2])
+
         delta_icon3 = ""
         delta_color3 = ""
         delta6 = abs(delta5)
@@ -203,7 +172,6 @@ if opt == "Summary":
             """,
             unsafe_allow_html=True
         )
-
     with col2:
         st.header("Total Imports")
         fig2 = px.line(food, x = "Year", y = source)
@@ -212,8 +180,6 @@ if opt == "Summary":
     with col2:
         st.header("Total Volume")
         columns = list(food2.columns)
-        # fig4 = px.area(food2, x = "Year", y = columns)
-        # fig4.update_yaxes(title = "Volume")
         columns.pop(0)
         data2 = []
         for i in range(len(columns)):
@@ -242,7 +208,6 @@ if opt == "Summary":
         z.pop(0)
         a = list(zip(label, z))
         b = pd.DataFrame(a, columns = ["Comodities", "Value"])
-        # st.dataframe(b)
         fig3 = px.pie(b, names = "Comodities", values = "Value")
         st.plotly_chart(fig3, use_container_width =True)
     with col3:
@@ -264,8 +229,6 @@ if opt == "Summary":
                              }
                          )
         fig5.update_xaxes(showticklabels = False, title = None)
-        # fig5.update_layout(barmode="group")
-        # fig5.update_traces(marker=dict(line=dict(color='black', width=0.5)))
         fig5.update_layout(legend=dict(orientation="h",yanchor="top", y=-0.1, xanchor="center",x =0.5))
         fig5.update_layout(width=600, height=500)
         st.plotly_chart(fig5, use_container_width =True)
