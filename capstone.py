@@ -175,7 +175,7 @@ if opt == "Summary":
     with col2:
         st.header("Total Imports")
         fig2 = px.line(food, x = "Year", y = source)
-        fig2.update_layout(yaxis_title="MUSD")
+        fig2.update_layout(yaxis_title="MUSD", legend_title_text=None)
         st.plotly_chart(fig2, use_container_width =True)
     with col2:
         st.header("Total Volume")
